@@ -1,6 +1,6 @@
 const Router = ReactRouterDOM.HashRouter
-const { Route, Routes } = ReactRouterDOM
-const { Provider } = ReactRedux
+const {Route, Routes} = ReactRouterDOM
+const {Provider} = ReactRedux
 import {AppHeader} from "./cmps/AppHeader.jsx"
 import {Home} from "./pages/Home.jsx"
 import {About} from "./pages/About.jsx"
@@ -11,6 +11,7 @@ import {AboutTeam} from "./cmps/AboutTeam.jsx"
 import {AboutVision} from "./cmps/AboutVision.jsx"
 import {Dashboard} from "./pages/Dashboard.jsx"
 import {store} from "./store/store.js"
+import {ConfirmModal} from "./cmps/ConfirmModal.jsx"
 
 export function RootCmp() {
 
@@ -34,6 +35,7 @@ export function RootCmp() {
 
             </Routes>
           </main>
+          <ConfirmModal/>
         </section>
       </Router>
     </Provider>

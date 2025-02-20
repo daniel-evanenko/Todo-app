@@ -5,6 +5,8 @@ import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from "../store/actions/todo.actions.js"
 import { SET_FILTER_BY } from "../store/reducers/todo.reducer.js"
+import { showModal } from "../store/actions/modalActions.js"
+
 const  { Fragment }  = React
 
 const { useState, useEffect } = React
@@ -35,11 +37,16 @@ export function TodoIndex() {
     }
 
     function onRemoveTodo(todoId) {
-        removeTodo(todoId)
+
+        dispatch(showModal({message: "Are you sure you want to delete this todo?",
+            onConfirm: () =>         
+            removeTodo(todoId)
             .then(() => showSuccessMsg(`Todo removed`))
             .catch(() => showErrorMsg('Cannot remove todo ' + todoId)
             )
+        }));
     }
+
 
     function onToggleTodo(todo) {
         saveTodo({ ...todo, isDone: !todo.isDone })
