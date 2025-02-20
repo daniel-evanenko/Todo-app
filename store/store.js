@@ -1,8 +1,10 @@
 import { userReducer } from "../store/reducers/user.reducer.js"
+import { todoReducer } from "./reducers/todo.reducer.js"
 
 const { createStore, combineReducers, compose } = Redux
 
 const rootReducer = combineReducers({
+    todoModule:todoReducer,
     userModule: userReducer
 })
 
