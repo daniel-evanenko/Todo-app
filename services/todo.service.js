@@ -57,8 +57,8 @@ function save(todo) {
     }
 }
 
-function getEmptyTodo(txt = '', importance = '') {
-    return { txt, importance, isDone: false }
+function getEmptyTodo(txt = '', importance = '', backgroundColor = '') {
+    return { txt, importance, backgroundColor,isDone: false }
 }
 
 function getDefaultFilter() {

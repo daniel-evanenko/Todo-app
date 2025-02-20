@@ -28,7 +28,6 @@ export function TodoEdit() {
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
-
         switch (target.type) {
             case 'number':
             case 'range':
@@ -60,7 +59,7 @@ export function TodoEdit() {
 
     }
 
-    const { txt, importance, isDone } = todoToEdit
+    const { txt, importance, backgroundColor, isDone } = todoToEdit
     const loadingClass = isLoading? "loading" : "";
     
     return (
@@ -71,6 +70,9 @@ export function TodoEdit() {
 
                 <label htmlFor="importance">Importance:</label>
                 <input onChange={handleChange} value={importance} type="number" name="importance" id="importance" />
+
+                <label htmlFor="backgroundColor">Background color:</label>
+                <input onChange={handleChange} value={backgroundColor} type="color" name="backgroundColor" id="backgroundColor" />
 
                 <label htmlFor="isDone">isDone:</label>
                 <input onChange={handleChange} value={isDone} type="checkbox" name="isDone" id="isDone" />
