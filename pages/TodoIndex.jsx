@@ -3,7 +3,7 @@ import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-import { loadTodos, removeTodo, toggleTodo } from "../store/actions/todo.actions.js"
+import { loadTodos, removeTodo, saveTodo } from "../store/actions/todo.actions.js"
 import { SET_FILTER_BY } from "../store/reducers/todo.reducer.js"
 const  { Fragment }  = React
 
@@ -42,7 +42,7 @@ export function TodoIndex() {
     }
 
     function onToggleTodo(todo) {
-        toggleTodo({ ...todo, isDone: !todo.isDone })
+        saveTodo({ ...todo, isDone: !todo.isDone })
             .then((savedTodo) => {
                 showSuccessMsg(`Todo is ${savedTodo.isDone ? 'done' : 'back on your list'}`);
             })
@@ -53,7 +53,6 @@ export function TodoIndex() {
     
     
 
-    if (!todos) return <div>Loading...</div>
     return (
         <section className="todo-index">
             <TodoFilter filterBy={filterBy} onSetFilterBy={onSetFilter} />

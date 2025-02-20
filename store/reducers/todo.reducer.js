@@ -19,7 +19,6 @@ const initialState = {
 }
 
 export function todoReducer(state = initialState, cmd = {}) {
-    console.log("🚀 ~ todoReducer ~ cmd:", cmd)
     
     switch (cmd.type) {
         case SET_TODOS:

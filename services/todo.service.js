@@ -57,7 +57,7 @@ function save(todo) {
     }
 }
 
-function getEmptyTodo(txt = '', importance = 5) {
+function getEmptyTodo(txt = '', importance = '') {
     return { txt, importance, isDone: false }
 }
 

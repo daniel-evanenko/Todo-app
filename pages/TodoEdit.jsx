@@ -1,5 +1,6 @@
 import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { saveTodo } from "../store/actions/todo.actions.js"
 
 const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouterDOM
@@ -7,6 +8,7 @@ const { useNavigate, useParams } = ReactRouterDOM
 export function TodoEdit() {
 
     const [todoToEdit, setTodoToEdit] = useState(todoService.getEmptyTodo())
+    const [isLoading,setIsLoading] = useState(false);
     const navigate = useNavigate()
     const params = useParams()
 
@@ -15,9 +17,12 @@ export function TodoEdit() {
     }, [])
 
     function loadTodo() {
+        setIsLoading(true)
         todoService.get(params.todoId)
             .then(setTodoToEdit)
             .catch(err => console.log('err:', err))
+            . finally(() => setIsLoading(false));
+
     }
 
     function handleChange({ target }) {
@@ -43,21 +48,23 @@ export function TodoEdit() {
 
     function onSaveTodo(ev) {
         ev.preventDefault()
-        todoService.save(todoToEdit)
-            .then((savedTodo) => {
-                navigate('/todo')
-                showSuccessMsg(`Todo Saved (id: ${savedTodo._id})`)
-            })
-            .catch(err => {
-                showErrorMsg('Cannot save todo')
-                console.log('err:', err)
-            })
+        saveTodo(todoToEdit)
+        .then((savedTodo) => {
+            navigate('/todo')
+            showSuccessMsg(`Todo Saved (id: ${savedTodo._id})`)
+        })
+        .catch(err => {
+            showErrorMsg('Cannot save todo')
+            console.log('err:', err)
+        })
+
     }
 
     const { txt, importance, isDone } = todoToEdit
-
+    const loadingClass = isLoading? "loading" : "";
+    
     return (
-        <section className="todo-edit">
+        <section className={`todo-edit ${loadingClass}`}>
             <form onSubmit={onSaveTodo} >
                 <label htmlFor="txt">Text:</label>
                 <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />

@@ -13,3 +13,8 @@
 .todo-edit form input {
     margin-bottom: 1em;
 }
+
+.loading {
+    opacity: 0.4;
+    pointer-events: none;
+}

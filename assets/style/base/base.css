@@ -56,6 +56,7 @@ object {
 }
 
 .loader {
+  caret-color: transparent;
   border: 16px solid var(--clr1bg-light);
   border-top: 16px solid var(--clr1); 
   border-radius: 50%;

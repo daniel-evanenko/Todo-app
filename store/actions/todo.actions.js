@@ -32,15 +32,17 @@ export async function removeTodo(todoId) {
 }
 
 
-export async function toggleTodo(toggledTodo) {
+export async function saveTodo(toggledTodo) {
     try {
         const savedTodo = await todoService.save(toggledTodo);
         store.dispatch({ type: UPDATE_TODO, todo: savedTodo });
         return savedTodo; 
     } catch (err) {
-        console.error('todo action -> Cannot toggle todo', err);
+        console.error('todo action -> Cannot save todo', err);
         throw err; 
     }
 }
+
+
 
 
