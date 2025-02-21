@@ -28,6 +28,13 @@ function query(filterBy = {}) {
             if (filterBy.importance) {
                 todos = todos.filter(todo => todo.importance >= filterBy.importance)
             }
+            if(filterBy.filterByOpt){
+                if(filterBy.filterByOpt == 'done'){
+                    todos = todos.filter(todo => todo.isDone == true)
+                }else if(filterBy.filterByOpt == 'active'){
+                    todos = todos.filter(todo => todo.isDone != true)
+                }
+            }
 
             return todos
         })
@@ -62,7 +69,7 @@ function getEmptyTodo(txt = '', importance = '', backgroundColor = '') {
 }
 
 function getDefaultFilter() {
-    return { txt: '', importance: 0 }
+    return { txt: '', importance: 0, filterByOpt:'all' }
 }
 
 function getFilterFromSearchParams(searchParams) {
