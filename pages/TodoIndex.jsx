@@ -1,11 +1,13 @@
 import { TodoFilter } from "../cmps/TodoFilter.jsx"
 import { TodoList } from "../cmps/TodoList.jsx"
 import { DataTable } from "../cmps/data-table/DataTable.jsx"
-import { todoService } from "../services/todo.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from "../store/actions/todo.actions.js"
 import { SET_FILTER_BY } from "../store/reducers/todo.reducer.js"
-import { showModal } from "../store/actions/modalActions.js"
+ 
+import { updateUserBalance } from "../store/actions/user.actions.js"
+import { showModal } from "../store/actions/modal.actions.js"
+import { userService } from "../services/user.service.js"
 
 const  { Fragment }  = React
 
@@ -51,13 +53,20 @@ export function TodoIndex() {
     function onToggleTodo(todo) {
         saveTodo({ ...todo, isDone: !todo.isDone })
             .then((savedTodo) => {
-                showSuccessMsg(`Todo is ${savedTodo.isDone ? 'done' : 'back on your list'}`);
+                const todoIsDone = savedTodo.isDone;
+                updateBalance(todoIsDone);
+                showSuccessMsg(`Todo is ${todoIsDone ? 'done' : 'back on your list'}`);
             })
             .catch(err => {
                 showErrorMsg('Cannot toggle todo ' + todo._id);
             });
     }
     
+    function updateBalance(todoIsDone){
+        if(userService.getLoggedinUser() && todoIsDone) {
+            updateUserBalance().then(()=> showSuccessMsg('Your balance increased by 10')
+        )}
+    }
     
 
     return (

@@ -1,7 +1,7 @@
 const { Link, NavLink } = ReactRouterDOM
 import { UserMsg } from "./UserMsg.jsx"
 import { LoginSignup } from './LoginSignup.jsx'
-import { showErrorMsg } from '../services/event-bus.service.js'
+import {showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { logout } from '../store/actions/user.actions.js'
 
 const { useSelector } = ReactRedux
@@ -28,6 +28,7 @@ export function AppHeader() {
                     < section >
 
                         <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
+                        <h3>Balance: {user.balance}</h3>
                         <button onClick={onLogout}>Logout</button>
                     </ section >
                 ) : (

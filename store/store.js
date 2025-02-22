@@ -1,4 +1,4 @@
-import { modalReducer } from "./reducers/modalReducer.js"
+import { modalReducer } from "./reducers/modal.reducer.js"
 import { todoReducer } from "./reducers/todo.reducer.js"
 import { userReducer } from "./reducers/user.reducer.js"
 

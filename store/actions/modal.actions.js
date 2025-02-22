@@ -1,4 +1,4 @@
-import { HIDE_MODAL, SHOW_MODAL } from "../reducers/modalReducer";
+import { HIDE_MODAL, SHOW_MODAL } from "../reducers/modal.reducer.js";
 
 export function showModal({ message, onConfirm }) {
     return {

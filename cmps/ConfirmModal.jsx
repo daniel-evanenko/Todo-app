@@ -1,4 +1,4 @@
-import { hideModal } from "../store/actions/modalActions.js"
+import { hideModal } from "../store/actions/modal.actions.js"
 const { useSelector, useDispatch } = ReactRedux
 
 export function ConfirmModal() {
