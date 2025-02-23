@@ -4,7 +4,8 @@ export const utilService = {
     getRandomIntInclusive,
     loadFromStorage,
     saveToStorage,
-    animateCSS
+    animateCSS,
+    timeAgo
 }
 
 function makeId(length = 6) {
@@ -57,4 +58,19 @@ function animateCSS(el, animation='bounce') {
 
         el.addEventListener('animationend', handleAnimationEnd, { once: true })
     })
+}
+
+
+ function timeAgo(timestamp) {
+    const secondsAgo = Math.floor((Date.now() - timestamp) / 1000);
+
+    if (secondsAgo < 60) return `${secondsAgo} seconds ago`;
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    if (minutesAgo < 60) return `${minutesAgo} minutes ago`;
+    const hoursAgo = Math.floor(minutesAgo / 60);
+    if (hoursAgo < 24) return `${hoursAgo === 1 ? "An hour ago" : `${hoursAgo} hours ago`}`;
+    const daysAgo = Math.floor(hoursAgo / 24);
+    if (daysAgo < 7) return `${daysAgo === 1 ? "A day ago" : `${daysAgo} days ago`}`;
+    
+    return new Date(timestamp).toLocaleDateString();
 }

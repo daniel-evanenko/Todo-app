@@ -5,7 +5,7 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadTodos, removeTodo, saveTodo } from "../store/actions/todo.actions.js"
 import { SET_FILTER_BY } from "../store/reducers/todo.reducer.js"
  
-import { updateUserBalance } from "../store/actions/user.actions.js"
+import { addUserActivity, updateUserBalance } from "../store/actions/user.actions.js"
 import { showModal } from "../store/actions/modal.actions.js"
 import { userService } from "../services/user.service.js"
 
@@ -19,7 +19,6 @@ const { useSelector, useDispatch } = ReactRedux
 export function TodoIndex() {
     const dispatch = useDispatch()
 
-    
     const todos = useSelector(storeState => storeState.todoModule.todos)
     const filterBy = useSelector(storeState => storeState.todoModule.filterBy)
     const isLoading = useSelector(storeState => storeState.todoModule.isLoading)
@@ -55,6 +54,7 @@ export function TodoIndex() {
             .then((savedTodo) => {
                 const todoIsDone = savedTodo.isDone;
                 updateBalance(todoIsDone);
+                addActivity(`Marked the Todo: '${todo.txt}' as ${todoIsDone ? 'completed' : 'not completed'}`)
                 showSuccessMsg(`Todo is ${todoIsDone ? 'done' : 'back on your list'}`);
             })
             .catch(err => {
@@ -66,6 +66,17 @@ export function TodoIndex() {
         if(userService.getLoggedinUser() && todoIsDone) {
             updateUserBalance().then(()=> showSuccessMsg('Your balance increased by 10')
         )}
+    }
+
+
+    function addActivity(txt) {
+        if (!userService.getLoggedinUser()) return;
+    
+        addUserActivity(txt)
+            // .then(() => showSuccessMsg("Activity logged"))
+            // .catch(err => {
+            //     showErrorMsg('Activity logging failed')
+            // });
     }
     
 

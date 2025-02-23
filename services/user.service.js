@@ -10,7 +10,8 @@ export const userService = {
     query,
     getEmptyCredentials,
     updateBalance,
-    updateUserDetails
+    updateUserDetails,
+    updateUserActivities
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
 const STORAGE_KEY = 'userDB'
@@ -101,7 +102,34 @@ function updateUserDetails(newUserDetails) {
             return updatedUser;
         })
         .catch(error => {
-            console.error("Failed to update user details:", error);
+            console.log("Failed to update user details:", error);
+            throw error; // Re-throw for handling at the caller level
+        });
+}
+
+
+function updateUserActivities(newActivity) {
+    const loggedInUserId = getLoggedinUser()._id
+    return userService.getById(loggedInUserId)
+        .then(user => {
+            if (!user) throw new Error("User not found");
+
+            const updatedUser = {
+                ...user,
+                activities: [
+                    newActivity,
+                    ...(user.activities || []),
+                ],
+            };
+
+            return storageService.put(STORAGE_KEY, updatedUser);
+        })
+        .then(updatedUser => {
+            _setLoggedinUser(updatedUser);
+            return updatedUser;
+        })
+        .catch(error => {
+            console.log("Failed to update user activities:", error);
             throw error; // Re-throw for handling at the caller level
         });
 }
