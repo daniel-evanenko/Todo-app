@@ -3,10 +3,11 @@ import { userService } from "../services/user.service.js";
 import { updateUserDetails } from "../store/actions/user.actions.js";
 
 const { useState } = React
+const { useSelector } = ReactRedux
 const { useNavigate } = ReactRouterDOM
 export function UserDetails(){
 
-    const [user,setUser] = useState(userService.getLoggedinUser());
+    const user = useSelector(storeState => storeState.userModule.loggedInUser)
     const [isLoading,setIsLoading] = useState(false);
     const navigate = useNavigate()
 
@@ -45,6 +46,7 @@ export function UserDetails(){
     }
 
 
+    if(!user) return ( <h1> No logged in user</h1>)
     const { fullname, color, backgroundColor } = user
     const loadingClass = isLoading? "loading" : "";
     
