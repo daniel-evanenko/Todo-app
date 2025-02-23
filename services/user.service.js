@@ -9,7 +9,8 @@ export const userService = {
     getById,
     query,
     getEmptyCredentials,
-    updateBalance
+    updateBalance,
+    updateUserDetails
 }
 const STORAGE_KEY_LOGGEDIN = 'user'
 const STORAGE_KEY = 'userDB'
@@ -31,8 +32,8 @@ function login({ username, password }) {
         })
 }
 
-function signup({ username, password, fullname, balance, activities }) {
-    const user = { username, password, fullname, balance, activities }
+function signup({ username, password, fullname, balance, activities,backgroundColor,color }) {
+    const user = { username, password, fullname, balance, activities,backgroundColor, color }
     user.createdAt = user.updatedAt = Date.now()
 
     return storageService.post(STORAGE_KEY, user)
@@ -49,7 +50,7 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, balance:user.balance , activities: user.activities }
+    const userToSave = { _id: user._id, fullname: user.fullname, balance:user.balance , activities: user.activities, backgroundColor: user.backgroundColor, color: user.color }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }
@@ -60,7 +61,9 @@ function getEmptyCredentials() {
         username: 'muki',
         password: 'muki1',
         balance: 10000,
-        activities: [{txt: 'Added a Todo', at: 1523873242735}]
+        activities: [{txt: 'Added a Todo', at: 1523873242735}],
+        backgroundColor:'#000000',
+        color:'#ffffff'
     }
 }
 
@@ -76,6 +79,33 @@ function updateBalance() {
             return user.balance
         })
 }
+
+
+function updateUserDetails(newUserDetails) {
+    const loggedInUserId = getLoggedinUser()._id
+    return userService.getById(loggedInUserId)
+        .then(user => {
+            if (!user) throw new Error("User not found");
+
+            const updatedUser = {
+                ...user,
+                fullname: newUserDetails.fullname,
+                color: newUserDetails.color,
+                backgroundColor: newUserDetails.backgroundColor
+            };
+
+            return storageService.put(STORAGE_KEY, updatedUser);
+        })
+        .then(updatedUser => {
+            _setLoggedinUser(updatedUser);
+            return updatedUser;
+        })
+        .catch(error => {
+            console.error("Failed to update user details:", error);
+            throw error; // Re-throw for handling at the caller level
+        });
+}
+
 
 // signup({username: 'muki', password: 'muki1', fullname: 'Muki Ja'})
 // login({username: 'muki', password: 'muki1'})

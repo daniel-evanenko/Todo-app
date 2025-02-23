@@ -9,7 +9,6 @@ const { useSelector } = ReactRedux
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
-    
     function onLogout() {
         logout()
             .then(() => {
@@ -27,7 +26,7 @@ export function AppHeader() {
                 {user ? (
                     < section >
 
-                        <Link to={`/user/${user._id}`}>Hello {user.fullname}</Link>
+                        <Link to={`/user`}>Hello {user.fullname}</Link>
                         <h3>Balance: {user.balance}</h3>
                         <button onClick={onLogout}>Logout</button>
                     </ section >

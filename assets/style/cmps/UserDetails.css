@@ -1,0 +1,20 @@
+.user-details {
+    max-width: 300px;
+    margin: auto;
+}
+
+.user-details form {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+.user-details form input {
+    margin-bottom: 1em;
+}
+
+.loading {
+    opacity: 0.4;
+    pointer-events: none;
+}

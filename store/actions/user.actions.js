@@ -1,5 +1,5 @@
 import { userService } from "../../services/user.service.js"
-import { SET_USER, SET_USER_BALANCE } from "../reducers/user.reducer.js"
+import { SET_USER, SET_USER_BALANCE, SET_USER_DETAILS } from "../reducers/user.reducer.js"
 import { store } from "../store.js"
 
 export function login(credentials) {
@@ -45,6 +45,16 @@ export function logout() {
 
     } catch (err) {
         console.log('user actions -> Cannot update user balance', err)
+        throw err
+    }
+}
+ export async function updateUserDetails(newUserDetails) {
+    try {
+        const updatedUser = await userService.updateUserDetails(newUserDetails);
+        await store.dispatch({ type: SET_USER_DETAILS, updatedUser: updatedUser })
+        return updatedUser
+    } catch (err) {
+        console.log('user actions -> Cannot update user details', err)
         throw err
     }
 }
