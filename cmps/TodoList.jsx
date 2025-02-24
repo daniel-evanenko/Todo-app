@@ -5,7 +5,7 @@ export function TodoList({todos, onRemoveTodo, onToggleTodo}) {
 
   return (
     <ul className="todo-list">
-      {todos.map(todo => <li key={todo._id} style={{ backgroundColor: todo.backgroundColor}}>
+      {todos.length >0 ?  todos.map(todo => <li key={todo._id} style={{ backgroundColor: todo.backgroundColor}}>
         <TodoPreview todo={todo} onToggleTodo={() => onToggleTodo(todo)}/>
         <section>
           <button onClick={() => onRemoveTodo(todo)}>Remove</button>
@@ -16,7 +16,7 @@ export function TodoList({todos, onRemoveTodo, onToggleTodo}) {
             <Link to={`/todo/edit/${todo._id}`}>Edit</Link>
           </button>
         </section>
-      </li>)}
+      </li>) : <p>No todos to show</p>}
     </ul>
   )
 }
