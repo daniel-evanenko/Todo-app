@@ -22,9 +22,8 @@ export async function loadTodos() {
 
 export async function removeTodo(todoId) {
     try {
-        const removedTodo  = await todoService.remove(todoId);
-        store.dispatch({ type: REMOVE_TODO, todoId });
-        return removedTodo;
+        await todoService.remove(todoId);
+        await store.dispatch({ type: REMOVE_TODO, todoId });
     } catch (err) {
         console.error('todo action -> Cannot remove todo', err);
         throw err;

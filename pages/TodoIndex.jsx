@@ -37,13 +37,16 @@ export function TodoIndex() {
         dispatch({ type: SET_FILTER_BY, filterBy })
     }
 
-    function onRemoveTodo(todoId) {
+    function onRemoveTodo(todo) {
 
         dispatch(showModal({message: "Are you sure you want to delete this todo?",
             onConfirm: () =>         
-            removeTodo(todoId)
-            .then(() => showSuccessMsg(`Todo removed`))
-            .catch(() => showErrorMsg('Cannot remove todo ' + todoId)
+            removeTodo(todo._id)
+            .then(() => {showSuccessMsg(`Todo removed`)
+                addActivity(`Removed the Todo: '${todo.txt}'`)
+
+            })
+            .catch(() => showErrorMsg('Cannot remove todo ' + todo._id)
             )
         }));
     }
