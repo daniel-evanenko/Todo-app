@@ -5,7 +5,8 @@ export const utilService = {
     loadFromStorage,
     saveToStorage,
     animateCSS,
-    timeAgo
+    timeAgo,
+    debounce
 }
 
 function makeId(length = 6) {
@@ -73,4 +74,14 @@ function animateCSS(el, animation='bounce') {
     if (daysAgo < 7) return `${daysAgo === 1 ? "A day ago" : `${daysAgo} days ago`}`;
     
     return new Date(timestamp).toLocaleDateString();
+}
+
+function debounce(func, timeout = 300) {
+    let timer
+    return (...args) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            func.apply(this, args)
+        }, timeout)
+    }
 }
