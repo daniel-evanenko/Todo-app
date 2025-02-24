@@ -43,8 +43,7 @@ export function TodoIndex() {
             onConfirm: () =>         
             removeTodo(todo._id)
             .then(() => {showSuccessMsg(`Todo removed`)
-                addActivity(`Removed the Todo: '${todo.txt}'`)
-
+                if(userService.getLoggedinUser()) addUserActivity(`Removed the Todo: '${todo.txt}'`)
             })
             .catch(() => showErrorMsg('Cannot remove todo ' + todo._id)
             )
@@ -52,36 +51,28 @@ export function TodoIndex() {
     }
 
 
-    function onToggleTodo(todo) {
-        saveTodo({ ...todo, isDone: !todo.isDone })
-            .then((savedTodo) => {
-                const todoIsDone = savedTodo.isDone;
-                updateBalance(todoIsDone);
-                addActivity(`Marked the Todo: '${todo.txt}' as ${todoIsDone ? 'completed' : 'not completed'}`)
-                showSuccessMsg(`Todo is ${todoIsDone ? 'done' : 'back on your list'}`);
-            })
-            .catch(err => {
-                showErrorMsg('Cannot toggle todo ' + todo._id);
-            });
+    async function onToggleTodo(todo) {
+        try {
+            const savedTodo = await saveTodo({ ...todo, isDone: !todo.isDone });
+            const todoIsDone = savedTodo.isDone;
+    
+            if (userService.getLoggedinUser()) {
+                await addUserActivity(`Marked the Todo: '${todo.txt}' as ${todoIsDone ? 'completed' : 'not completed'}`);
+                await updateBalance(todoIsDone);
+            }
+    
+            showSuccessMsg(`Todo is ${todoIsDone ? 'done' : 'back on your list'}`);
+        } catch (err) {
+            showErrorMsg(`Cannot toggle todo ${todo._id}`);
+        }
     }
     
+    
     function updateBalance(todoIsDone){
-        if(userService.getLoggedinUser() && todoIsDone) {
+        if(todoIsDone) {
             updateUserBalance().then(()=> showSuccessMsg('Your balance increased by 10')
         )}
     }
-
-
-    function addActivity(txt) {
-        if (!userService.getLoggedinUser()) return;
-    
-        addUserActivity(txt)
-            // .then(() => showSuccessMsg("Activity logged"))
-            // .catch(err => {
-            //     showErrorMsg('Activity logging failed')
-            // });
-    }
-    
 
     return (
         <section className="todo-index">

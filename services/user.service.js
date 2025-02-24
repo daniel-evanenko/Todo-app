@@ -59,10 +59,10 @@ function _setLoggedinUser(user) {
 function getEmptyCredentials() {
     return {
         fullname: '',
-        username: 'muki',
-        password: 'muki1',
-        balance: 10000,
-        activities: [{txt: 'Added a Todo', at: 1523873242735}],
+        username: '',
+        password: '',
+        balance: 0,
+        activities: [],
         backgroundColor:'#000000',
         color:'#ffffff'
     }
