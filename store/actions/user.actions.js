@@ -38,7 +38,8 @@ export function logout() {
 }
 
 
- export async function updateUserBalance() {
+export async function updateUserBalance() {
+    if (!userService.getLoggedinUser()) return
     try {
         const newBalance = await userService.updateBalance();
         await store.dispatch({ type: SET_USER_BALANCE, balance: newBalance })
@@ -48,7 +49,8 @@ export function logout() {
         throw err
     }
 }
- export async function updateUserDetails(newUserDetails) {
+export async function updateUserDetails(newUserDetails) {
+    if (!userService.getLoggedinUser()) return
     try {
         const updatedUser = await userService.updateUserDetails(newUserDetails);
         await store.dispatch({ type: SET_USER_DETAILS, updatedUser: updatedUser })
@@ -61,16 +63,17 @@ export function logout() {
 
 
 export async function addUserActivity(txt) {
+    if (!userService.getLoggedinUser()) return
     try {
         const newActivity = {
             txt,
             at: Date.now(),
-        }; 
+        };
         const updatedUser = await userService.updateUserActivities(newActivity);
         await store.dispatch({ type: ADD_USER_ACTIVITY, newActivity: newActivity });
         return updatedUser
-        
-    } catch (error) {
+
+    } catch (err) {
         console.log('user actions -> Cannot update user activities', err)
         throw err
     }

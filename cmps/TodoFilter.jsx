@@ -1,10 +1,10 @@
 import { utilService } from "../services/util.service.js"
 
-const { useState, useEffect,useRef } = React
+const { useState, useEffect, useRef } = React
 
 export function TodoFilter({ filterBy, onSetFilterBy }) {
 
-    const [filterByToEdit, setFilterByToEdit] = useState({...filterBy})
+    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     onSetFilterBy = useRef(utilService.debounce(onSetFilterBy)).current
     useEffect(() => {
         // Notify parent
@@ -38,7 +38,7 @@ export function TodoFilter({ filterBy, onSetFilterBy }) {
     }
 
     const { txt, importance, filterByOpt } = filterByToEdit
-    const filterByOpts = ['all','active','done']
+    const filterByOpts = ['all', 'active', 'done']
     return (
         <section className="todo-filter">
             <h2>Filter Todos</h2>
@@ -51,12 +51,12 @@ export function TodoFilter({ filterBy, onSetFilterBy }) {
                     type="number" placeholder="By Importance" id="importance" name="importance"
                 />
 
-            <label htmlFor="filterByOpt">Filter by:</label>
+                <label htmlFor="filterByOpt">Filter by:</label>
                 <select value={filterByOpt} onChange={handleChange} name="filterByOpt">
                     {filterByOpts.map(opt => (
                         <option key={opt} value={opt}>{opt}</option>
                     ))}
-                    </select>
+                </select>
 
                 <button hidden>Set Filter</button>
             </form>

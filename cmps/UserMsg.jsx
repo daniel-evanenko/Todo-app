@@ -10,7 +10,7 @@ export function UserMsg() {
     const timeoutRef = useRef()
 
     useEffect(() => {
-        
+
         const unsubscribe = eventBusService.on('show-user-msg', msg => {
             clearTimeout(timeoutRef.current)
             setMsg(msg)

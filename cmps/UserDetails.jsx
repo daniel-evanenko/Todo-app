@@ -1,19 +1,15 @@
-import {showErrorMsg, showSuccessMsg} from "../services/event-bus.service.js";
-import {userService} from "../services/user.service.js";
-import {utilService} from "../services/util.service.js";
-import {updateUserDetails} from "../store/actions/user.actions.js";
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
+import { utilService } from "../services/util.service.js";
+import { updateUserDetails } from "../store/actions/user.actions.js";
 
-const {useState} = React
-const {useSelector} = ReactRedux
-const {useNavigate} = ReactRouterDOM
+const { useSelector } = ReactRedux
+const { useNavigate } = ReactRouterDOM
 export function UserDetails() {
 
   const user = useSelector(storeState => storeState.userModule.loggedInUser)
-  const [isLoading,
-    setIsLoading] = useState(false);
   const navigate = useNavigate()
 
-  function handleChange({target}) {
+  function handleChange({ target }) {
     const field = target.name
     let value = target.value
     switch (target.type) {
@@ -48,15 +44,12 @@ export function UserDetails() {
 
   }
 
-  if (!user) 
+  if (!user)
     return (
       <h1>
         No logged in user</h1>
     )
-  const {fullname, color, backgroundColor} = user
-  const loadingClass = isLoading
-    ? "loading"
-    : "";
+  const { fullname, color, backgroundColor } = user
 
   return (
     <section className={`user-details ${loadingClass}`}>
@@ -67,7 +60,7 @@ export function UserDetails() {
           value={fullname}
           type="text"
           name="fullname"
-          id="fullname"/>
+          id="fullname" />
 
         <label htmlFor="color">Color:</label>
         <input
@@ -75,7 +68,7 @@ export function UserDetails() {
           value={color}
           type="color"
           name="color"
-          id="color"/>
+          id="color" />
 
         <label htmlFor="backgroundColor">BG color:</label>
         <input
@@ -83,7 +76,7 @@ export function UserDetails() {
           value={backgroundColor}
           type="color"
           name="backgroundColor"
-          id="backgroundColor"/>
+          id="backgroundColor" />
         <button>Save</button>
       </form>
 

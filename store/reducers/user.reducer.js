@@ -1,4 +1,4 @@
-import {userService} from "../../services/user.service.js"
+import { userService } from "../../services/user.service.js"
 
 //* User
 export const SET_USER = 'SET_USER'
@@ -16,7 +16,7 @@ export function userReducer(state = initialState, cmd = {}) {
         ...state,
         loggedInUser: cmd.user
       }
-  
+
     case SET_USER_BALANCE:
       const updatedUserBalance = {
         ...state.loggedInUser,
@@ -26,9 +26,9 @@ export function userReducer(state = initialState, cmd = {}) {
         ...state,
         loggedInUser: updatedUserBalance
       }
-  
+
     case SET_USER_DETAILS:
-      
+
       const updatedUserDetails = {
         ...state.loggedInUser,
         ...cmd.updatedUser
@@ -38,21 +38,21 @@ export function userReducer(state = initialState, cmd = {}) {
         loggedInUser: updatedUserDetails
       }
 
-      case ADD_USER_ACTIVITY:
-        return {
-          ...state,
-          loggedInUser: {
-              ...state.loggedInUser,
-              activities: [cmd.newActivity, ...(state.loggedInUser.activities || [])],
-          },
+    case ADD_USER_ACTIVITY:
+      return {
+        ...state,
+        loggedInUser: {
+          ...state.loggedInUser,
+          activities: [cmd.newActivity, ...(state.loggedInUser.activities || [])],
+        },
       };
-      
-    
 
 
-  
+
+
+
     default:
       return state
   }
-  
+
 }
